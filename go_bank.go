@@ -17,11 +17,13 @@ func main() {
 		accountBalance = getUserWithdraw(accountBalance)
 		fmt.Print("Your balance is now USD", accountBalance) 
 	} else if userChoice == 4 {
-		fmt.Print("Thank for you for choosing Go Bank!")
+		fmt.Print("Thank you for choosing Go Bank!")
+	} else {
+		fmt.Print("Enter a valid input!")
 	}
 }
 
-func getUserChoice() (int) {
+func getUserChoice() int {
 	var userChoice int
 	
 	fmt.Println("What do you want to do?")
@@ -35,37 +37,54 @@ func getUserChoice() (int) {
 	return userChoice
 }
 
-func getUserDeposit(accountBalance float64) (float64) {
+func getUserDeposit(accountBalance float64) float64 {
 	var depositAmount float64
 	var confirmDeposit string
 
 	fmt.Print("How much do you want to deposit?: ")
 	fmt.Scan(&depositAmount)
+
+	if depositAmount <= 0 {
+		fmt.Println("Invalid amount. Must be greater than 0.")
+		return accountBalance
+	}
+
 	fmt.Print("The value of USD", depositAmount, " will be deposited into your account. Do you wish to continue? (Y/N)")
 	fmt.Scan(&confirmDeposit)
 
 	if (confirmDeposit == "Y" || confirmDeposit == "y") {
 		accountBalance += depositAmount		
 	} else if (confirmDeposit == "N" || confirmDeposit == "n") {
-		fmt.Print("Deposit cancelled")
+		fmt.Println("Deposit cancelled")
 	}
 
 	return accountBalance
 }
 
-func getUserWithdraw(accountBalance float64) (float64) {
+func getUserWithdraw(accountBalance float64) float64 {
 	var withdrawAmount float64
 	var confirmWithdraw string
 
 	fmt.Print("How much do you want to withdraw?: ")
 	fmt.Scan(&withdrawAmount)
-	fmt.Print("The value of USD", withdrawAmount, " will be withdrawn into your account. Do you wish to continue? (Y/N)")
+
+	if withdrawAmount <= 0 {
+		fmt.Println("Invalid amount. Must be greater than 0.")
+		return accountBalance
+	}
+	
+	if accountBalance < withdrawAmount {
+		fmt.Println("Your withdraw amount can't exceed your balance of USD", accountBalance)
+		return accountBalance
+	}
+
+	fmt.Print("The value of USD", withdrawAmount, " will be withdrawn from your account. Do you wish to continue? (Y/N)")
 	fmt.Scan(&confirmWithdraw)
 
 	if (confirmWithdraw == "Y" || confirmWithdraw == "y") {
 		accountBalance -= withdrawAmount		
 	} else if (confirmWithdraw == "N" || confirmWithdraw == "n") {
-		fmt.Print("Withdraw cancelled")
+		fmt.Println("Withdraw cancelled")
 	}
 
 	return accountBalance
