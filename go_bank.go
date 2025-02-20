@@ -6,20 +6,28 @@ func main() {
 	var accountBalance = 1000.0
 
 	fmt.Println("Welcome to Go Bank!")
-	userChoice := getUserChoice()
+	
+	for {
+		userChoice := getUserChoice()
 
-	if userChoice == 1 {
-		fmt.Println("Your balance is: USD", accountBalance)
-	} else if userChoice == 2 {
-		accountBalance = getUserDeposit(accountBalance)
-		fmt.Print("Your balance is now USD", accountBalance) 
-	} else if userChoice == 3 {
-		accountBalance = getUserWithdraw(accountBalance)
-		fmt.Print("Your balance is now USD", accountBalance) 
-	} else if userChoice == 4 {
-		fmt.Print("Thank you for choosing Go Bank!")
-	} else {
-		fmt.Print("Enter a valid input!")
+		if userChoice == 1 {
+			fmt.Println("Your balance is: USD", accountBalance)
+			continue
+		} else if userChoice == 2 {
+			accountBalance = getUserDeposit(accountBalance)
+			fmt.Println("Your balance is now USD", accountBalance) 
+			continue
+		} else if userChoice == 3 {
+			accountBalance = getUserWithdraw(accountBalance)
+			fmt.Println("Your balance is now USD", accountBalance) 
+			continue
+		} else if userChoice == 4 {
+			fmt.Println("Thank you for choosing Go Bank!")
+			break
+		} else {
+			fmt.Println("Enter a valid input!")
+			continue
+		}
 	}
 }
 
