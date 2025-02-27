@@ -10,6 +10,26 @@ func main() {
 	for {
 		userChoice := getUserChoice()
 
+		switch userChoice {
+		case 1:
+			fmt.Println("Your balance is: USD", accountBalance)
+		case 2:
+			accountBalance = getUserDeposit(accountBalance)
+			fmt.Println("Your balance is now USD", accountBalance)
+		case 3:
+			accountBalance = getUserWithdraw(accountBalance)
+			fmt.Println("Your balance is now USD", accountBalance)
+		case 4:
+			fmt.Println("Thank you for choosing Go Bank!")
+			return
+		default:
+			fmt.Println("Enter a valid input!")
+		}
+	}
+
+	/* for {
+		userChoice := getUserChoice()
+
 		if userChoice == 1 {
 			fmt.Println("Your balance is: USD", accountBalance)
 			continue
@@ -28,7 +48,7 @@ func main() {
 			fmt.Println("Enter a valid input!")
 			continue
 		}
-	}
+	} */
 }
 
 func getUserChoice() int {
