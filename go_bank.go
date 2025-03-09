@@ -2,38 +2,14 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"strconv"
-	"errors"
+	"github.com/mtravassos96/go-bank/fileops"
 )
 
 
 const accountBalanceFile = "balance.txt"
 
-func getBalanceFromFile() (float64, error) {
-	data, err := os.ReadFile(accountBalanceFile)
-
-	if err != nil {
-		return 1000, errors.New("failed to find balance file")
-	}
-
-	balanceText := string(data)
-	balance, err := strconv.ParseFloat(balanceText, 64)
-
-	if err != nil {
-		return 1000, errors.New("failed to parse stored balance file")
-	}
-
-	return balance, nil
-}
-
-func writeBalanceToFile(balance float64) {
-	balanceText := fmt.Sprint(balance)
-	os.WriteFile(accountBalanceFile, []byte(balanceText), 0644)
-}
-
 func main() {
-	var accountBalance, err = getBalanceFromFile()
+	var accountBalance, err = fileops.GetFloatFromFile(accountBalanceFile)
 
 	if err != nil {
 		fmt.Println("ERROR")
@@ -52,11 +28,11 @@ func main() {
 			fmt.Println("Your balance is: USD", accountBalance)
 		case 2:
 			accountBalance = getUserDeposit(accountBalance)
-			writeBalanceToFile(accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 			fmt.Println("Your balance is now USD", accountBalance)
 		case 3:
 			accountBalance = getUserWithdraw(accountBalance)
-			writeBalanceToFile(accountBalance)
+			fileops.WriteFloatToFile(accountBalance, accountBalanceFile)
 			fmt.Println("Your balance is now USD", accountBalance)
 		case 4:
 			fmt.Println("Thank you for choosing Go Bank!")
@@ -65,43 +41,7 @@ func main() {
 			fmt.Println("Enter a valid input!")
 		}
 	}
-
-	/* for {
-		userChoice := getUserChoice()
-
-		if userChoice == 1 {
-			fmt.Println("Your balance is: USD", accountBalance)
-			continue
-		} else if userChoice == 2 {
-			accountBalance = getUserDeposit(accountBalance)
-			fmt.Println("Your balance is now USD", accountBalance) 
-			continue
-		} else if userChoice == 3 {
-			accountBalance = getUserWithdraw(accountBalance)
-			fmt.Println("Your balance is now USD", accountBalance) 
-			continue
-		} else if userChoice == 4 {
-			fmt.Println("Thank you for choosing Go Bank!")
-			break
-		} else {
-			fmt.Println("Enter a valid input!")
-			continue
-		}
-	} */
-}
-
-func getUserChoice() int {
-	var userChoice int
 	
-	fmt.Println("What do you want to do?")
-	fmt.Println("1. Check balance")
-	fmt.Println("2. Deposit money")
-	fmt.Println("3. Withdraw money")
-	fmt.Println("4. Exit")
-	fmt.Print("Your choice: ")
-	fmt.Scan(&userChoice)
-
-	return userChoice
 }
 
 func getUserDeposit(accountBalance float64) float64 {
